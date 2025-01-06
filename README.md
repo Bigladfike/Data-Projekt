@@ -1,2 +1,2 @@
 "# anime-interaction" 
-v2
+// dette er version 2 af koden med .html'en og javascript-filen
