@@ -1,6 +1,6 @@
 let animeData = [];
 let loaded = false;
-let loadButton;
+let loadButton, sortButton; // Tilføj sorteringsknap
 let trailerIframe = null; // HTML-element til at vise traileren
 let genreDropdown; // Dropdown-menu til filtrering
 let filteredData = []; // Filtrerede data
@@ -14,8 +14,12 @@ function setup() {
   genreDropdown.option('Alle'); // Standardvalg
   genreDropdown.hide(); // Skjult, indtil data er hentet
 
-  // Opret knap
+  // Opret knap til hentning af data
   loadButton = createButton('Hent anime-data').position(20, 20).mousePressed(loadData);
+
+  // Opret knap til sortering efter popularitet
+  sortButton = createButton('Sortér efter popularitet').position(20, 60).mousePressed(sortByPopularity);
+  sortButton.hide(); // Skjul indtil data er hentet
 
   // Starttekst på canvas
   fill(255);
@@ -58,9 +62,9 @@ function gotData(data) {
   genreDropdown.show(); // Vis dropdown
   allGenres.forEach(genre => genreDropdown.option(genre)); // Tilføj genrer til dropdown
 
+  sortButton.show(); // Vis sorteringsknap
   loaded = true; // Marker data som hentet
   background(30); // Ryd canvas efter klik
-
 }
 
 function filterByGenre() {
@@ -75,6 +79,10 @@ function filterByGenre() {
   displayData(); // Opdater canvas
 }
 
+function sortByPopularity() {
+  filteredData.sort((a, b) => b.popularity - a.popularity); // Sortér i faldende rækkefølge
+  displayData(); // Opdater canvas efter sortering
+}
 
 function displayData() {
   background(30); // Ryd canvas før ny visualisering
@@ -92,7 +100,7 @@ function displayData() {
 
     // Vis billede, hvis det er hentet
     if (anime.img) {
-      image(anime.img, x - 100, y - 300, 200, 275); // Billede (100x100 px) over teksten
+      image(anime.img, x - 70, y - 200, 150, 225); // Billede (100x100 px) over teksten
     }
 
     // Vis anime-oplysninger
